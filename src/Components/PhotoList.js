@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFID } from 'web-vitals';
+// import { getFID } from 'web-vitals';
 import NotFound from './NotFound';
 import Photo from './Photo';
 
@@ -14,12 +14,13 @@ const PhotoList = (props) => {
         <Photo id={photo.id} server={photo.server} secret={photo.secret} key={photo.id} />
       ));
     } else {
-      photos = <NotFound />;
+      photos = <NotFound />
     }
   
     return (
     <div className="photo-container">
-        <ul>{photos}</ul>;
+        <h2>{props.query}</h2>
+        <ul>{photos}</ul>
     </div>
     );
   };
