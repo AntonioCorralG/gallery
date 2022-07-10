@@ -7,6 +7,7 @@ import SearchForm from "./Components/SearchForm";
 import PhotoList from "./Components/PhotoList";
 import apiKey from "./Components/config";
 import Nav from "./Components/Nav";
+import NotFound from "./Components/NotFound";
 
 class App extends Component {
   constructor() {
@@ -17,17 +18,26 @@ class App extends Component {
       tacos: [],
       naruto: [],
       loading: true,
+      query: ""
     };
   }
 
   componentDidMount() {
-    this.performSearch();
     this.performSearch('robots');
     this.performSearch('tacos');
     this.performSearch('naruto');
+    this.performSearch();
   }
 
-  performSearch = (query = this.state.query) => {
+  handleClick = e => {
+    const query = e.target.id;
+    this.performSearch(query);
+    this.setState({
+      query: query
+    });
+  }
+
+  performSearch = (query = 'fruits') => {
     axios
       .get(
         `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`
@@ -39,12 +49,13 @@ class App extends Component {
           this.setState({ tacos: response.data.photos.photo, loading: false});
         } else if (query === "naruto") {
           this.setState({ naruto: response.data.photos.photo, loading: false});
-        } else
+        } else {
           this.setState({
             photos: response.data.photos.photo,
             loading: false,
             query: query
           });
+        }
       })
       .catch((error) => {
         console.log("Error fetching and parsing data", error);
@@ -54,27 +65,19 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <SearchForm onSearch={this.performSearch} />
-        <Nav navSelection={this.handleClick} />
+        <div>
+          <SearchForm onSearch={this.performSearch} />
+          <Nav navSelection={this.handleClick} />
 
-        <Switch>
-        <Route exact path='/' render={ () => <PhotoList data={this.state.photos} title={this.state.query} query={this.state.query} />} />
-        <Route path='/search/:search' render={() => <PhotoList data={this.state.photos} query={this.state.query} />} />
-        <Route exact path='/robots' render={() => <PhotoList data={this.state.robots}/>}/>
-        <Route exact path='/tacos' render={() => <PhotoList data={this.state.tacos}/>}/>
-        <Route exact path='/naruto' render={() => <PhotoList data={this.state.naruto}/>}/>
-        <Route path={"/search/:query"} render= {() => <PhotoList data={this.state.photos} />} />
-
-        {/* // <Route path="/robots" render={ () => <PhotoList data={this.state.photos} query={this.state.query}/> } /> */}
-        {/* <div className="photo-container">
-          {this.state.loading ? (
-            <p> Loading...</p>
-          ) : (
-            <PhotoList data={this.state.photos} />
-          )}
-        </div> */}
-        </Switch>
-
+          <Switch>
+            <Route exact path='/' render={ () => <PhotoList data={this.state.photos} title={this.state.query} query={this.state.query} />} />
+            <Route path='/search/:query' render={() => <PhotoList data={this.state.photos} query={this.state.query}/>} />
+            <Route exact path='/robots' render={() => <PhotoList data={this.state.robots} title="robots" query="robots"/>}/>
+            <Route exact path='/tacos' render={() => <PhotoList data={this.state.tacos} title="tacos" query="tacos" />}/>
+            <Route exact path='/naruto' render={() => <PhotoList data={this.state.naruto} title="naruto" query="naruto"/>}/>
+            <Route render={() =><NotFound />}/>
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }

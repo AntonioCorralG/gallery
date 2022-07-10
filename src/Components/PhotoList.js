@@ -3,7 +3,6 @@ import React from 'react';
 import NotFound from './NotFound';
 import Photo from './Photo';
 
-
 const PhotoList = (props) => {
     const results = props.data;
     console.log(results);
