@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
+//renders the buttons to query robots, tacos, or naruto 
 class Nav extends Component {
     render() {
         return (

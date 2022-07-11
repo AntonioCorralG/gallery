@@ -1,5 +1,7 @@
 import React from "react";
 
+
+//renders a not found message when the query yields no results from flickr
 const NotFound = (props) => (
   <li className="not-found">
     <h3>No Results Found</h3>

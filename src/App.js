@@ -1,14 +1,18 @@
+//imports for react, routing, and axios
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+//components for rendering
 import SearchForm from "./Components/SearchForm";
 import PhotoList from "./Components/PhotoList";
 import apiKey from "./Components/config";
 import Nav from "./Components/Nav";
 import NotFound from "./Components/NotFound";
 
+
+//class that holds that sets the state for the perform search
 class App extends Component {
   constructor() {
     super();
@@ -29,7 +33,8 @@ class App extends Component {
     this.performSearch();
   }
 
-
+//perform search function that querys fruits as the starter page
+//it uses conditional statements to determine what pictures it's pulling either from the three buttons or the user query
   performSearch = (query = 'fruits') => {
     axios
       .get(

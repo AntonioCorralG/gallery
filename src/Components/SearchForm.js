@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
+//creates a component to handle the search form
 class SearchForm extends Component {
   
     state = {
