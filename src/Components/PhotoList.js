@@ -5,7 +5,6 @@ import Photo from './Photo';
 
 const PhotoList = (props) => {
     const results = props.data;
-    console.log(results);
     let photos;
   
     if (results.length > 0) {

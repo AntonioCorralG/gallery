@@ -29,13 +29,6 @@ class App extends Component {
     this.performSearch();
   }
 
-  handleClick = e => {
-    const query = e.target.id;
-    this.performSearch(query);
-    this.setState({
-      query: query
-    });
-  }
 
   performSearch = (query = 'fruits') => {
     axios
@@ -67,7 +60,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <SearchForm onSearch={this.performSearch} />
-          <Nav navSelection={this.handleClick} />
+          <Nav  />
 
           <Switch>
             <Route exact path='/' render={ () => <PhotoList data={this.state.photos} title={this.state.query} query={this.state.query} />} />
